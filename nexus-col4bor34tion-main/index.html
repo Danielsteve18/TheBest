@@ -3,10 +3,13 @@
 <head>
     <link href="login.css" rel="stylesheet" type="text/css"/>
 	<title>Formulario de inicio de sesión</title>
+  <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-	<h2>Inicio de sesión NOTEX</h2>
+	<h1>NOTEX</h1>
+  <h2>Inicio de sesión</h2>
 	<form>
         <label for="username">Correo:</label>
         <input type="text" id="emaillog" name="username" required>
@@ -21,4 +24,31 @@
         <p>¿No tienes una cuenta? <a href="registro.html">Regístrate aquí</a>.</p></center> 
 </body>
 <script type="module" src="iniciosesion.js"></script>
+<script>
+  const style = document.createElement("style");
+            style.innerHTML = `
+           
+            body {
+            background-image: url("./img/azulP.jpg");
+            background-size: cover;
+            
+            }
+            
+            h1{
+            margin-top: 40px;
+            font-size: 30px;}
+            
+            h2{
+            font-size: 28px;}
+            
+            form{
+            
+            background-size: cover;
+            }
+            p{
+            color: white
+            }
+            `;
+            document.head.appendChild(style);
+</script>
 </html>

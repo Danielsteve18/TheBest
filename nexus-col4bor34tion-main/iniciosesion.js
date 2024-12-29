@@ -12,6 +12,7 @@ import {
     getFirestore
 } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js'; // Import Firestore
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
     authDomain: "nexus-5c53d.firebaseapp.com",
@@ -30,122 +31,117 @@ const db = getFirestore(app);  // Inicialización de Firestore
 
 // Crear una función para mostrar el loader dentro del SweetAlert2
 const showLoaderInSwal = () => {
-    // Estilo dinámico para el loader
     const style = document.createElement("style");
-    style.innerHTML = `
-.pyramid-loader {
-  position: relative;
-  width: 300px;
-  height: 300px;
-  display: block;
-  transform-style: preserve-3d;
-  transform: rotateX(-20deg);
+    style.innerHTML = 
+    `
+     
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  height: 110px;
+  width: 110px;
+  animation: rotate_3922 1.2s linear infinite;
+  background-color: #9b59b6;
+  background-image: linear-gradient(#9b59b6, #84cdfa, #5ad1cd);
 }
 
-.wrapper {
-  position: relative;
-  width: 100%;
+.container span {
+  position: absolute;
+  border-radius: 50%;
   height: 100%;
-  transform-style: preserve-3d;
-  animation: spin 4s linear infinite;
+  width: 100%;
+  background-color: #9b59b6;
+  background-image: linear-gradient(#9b59b6, #84cdfa, #5ad1cd);
 }
 
-@keyframes spin {
-  100% {
-    transform: rotateY(360deg);
+.container span:nth-of-type(1) {
+  filter: blur(5px);
+}
+
+.container span:nth-of-type(2) {
+  filter: blur(10px);
+}
+
+.container span:nth-of-type(3) {
+  filter: blur(25px);
+}
+
+.container span:nth-of-type(4) {
+  filter: blur(50px);
+}
+
+.container::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  background-color: #fff;
+  border: solid 5px #ffffff;
+  border-radius: 50%;
+}
+
+@keyframes rotate_3922 {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
+@import 'sweetalert2/src/variables';
 
-.pyramid-loader .wrapper .side {
-  width: 70px;
-  height: 70px;
-/* you can choose any gradient or color you want */
-  /* background: radial-gradient( #2F2585 10%, #F028FD 70%, #2BDEAC 120%); */
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  transform-origin: center top;
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
+$swal2-dark-theme-black:rgba(25, 25, 26, 0);
+$swal2-dark-theme-white:rgba(225, 225, 225, 0);
+$swal2-outline-color: lighten($swal2-outline-color, 10%);
 
-.pyramid-loader .wrapper .side1 {
-  transform: rotateZ(-30deg) rotateY(90deg);
-  background: conic-gradient( #2BDEAC, #F028FD, #D8CCE6, #2F2585);
-}
+$swal2-background: $swal2-dark-theme-black;
+$swal2-html-container-color: $swal2-dark-theme-white;
+$swal2-title-color: $swal2-dark-theme-white;
+$swal2-backdrop: rgba($swal2-dark-theme-black, .75);
 
-.pyramid-loader .wrapper .side2 {
-  transform: rotateZ(30deg) rotateY(90deg);
-  background: conic-gradient( #2F2585, #D8CCE6, #F028FD, #2BDEAC);
-}
-
-.pyramid-loader .wrapper .side3 {
-  transform: rotateX(30deg);
-  background: conic-gradient( #2F2585, #D8CCE6, #F028FD, #2BDEAC);
-}
-
-.pyramid-loader .wrapper .side4 {
-  transform: rotateX(-30deg);
-  background: conic-gradient( #2BDEAC, #F028FD, #D8CCE6, #2F2585);
-}
-
-.pyramid-loader .wrapper .shadow {
-  width: 60px;
-  height: 60px;
-  background: #8B5AD5;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  transform: rotateX(90deg) translateZ(-40px);
-  filter: blur(12px);
-}
+        
     `;
-  
-    // Agregar estilos al documento
-    document.head.appendChild(style); 
-}
+    document.head.appendChild(style);
+};
+showLoaderInSwal();
 // Manejo del inicio de sesión
 document.getElementById('login').addEventListener('click', async (e) => {
     e.preventDefault();  // Prevenir el envío del formulario de manera normal
 
     //Creativo el pana y Tio Pt
-    const handleLoadingPage = 0;
+    
     //Fin creatividad
-    loginForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
 
     const email = document.getElementById('emaillog').value;
     const password = document.getElementById('passwordlog').value;
     //Swal de carga
       Swal.fire({
-        title: 'Iniciando sesión...',
         html: `
-        <div class="pyramid-loader">
-          <div class="wrapper">
-            <span class="side side1"></span>
-            <span class="side side2"></span>
-            <span class="side side3"></span>
-            <span class="side side4"></span>
-            <span class="shadow"></span>
-          </div>  
-        </div>`,
+        
+            <div class="container">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            </div>`,
+
         showConfirmButton: false,
         allowOutsideClick: false,
         didOpen: async () => {
                         try {
                         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                        alert("Inicio de sesión exitoso");
+                       
 
                         // Verificar si ya tiene un rol asignado
                         const user = userCredential.user;
                         const userRef = doc(db, "users", user.uid);  // Referencia al documento del usuario
                         const userDoc = await getDoc(userRef);  // Obtener el documento
-
+                            Swal.close();
                         if (userDoc.exists() && userDoc.data().role) {
                             var role = userDoc.data().role;
                             // Redirigir según el rol
@@ -153,36 +149,40 @@ document.getElementById('login').addEventListener('click', async (e) => {
                                 window.location.href = "prfesor.html";
                             } else if (role === "student") {
                                 window.location.href = "/pagina_estudiante.html";
+                            }else {
+                                window.location.href = "roles.html";
                             }
-                        //es exitoso
-                        Swal.fire({
-                        icon: 'success',
-                        title: '¡Bienvenido!',
-                        text: 'Inicio de sesión exitoso.',
-                        showConfirmButton: false,
-                        timer: 2000 // Modal se cierra automáticamente después de 2 segundos
-                        });
+                        } else {
+                            window.location.href = "roles.html";
+                        }
 
-                        } else {
-                            // Si no tiene rol, redirigir a la página de selección de roles
-                            window.location.href = 'roles.html';
-                        }
+                      
                     } catch (error) {
-                        const errorCode = error.code;
-                        if (errorCode === 'auth/wrong-password') {
-                            alert('Contraseña incorrecta');
-                        } else if (errorCode === 'auth/user-not-found') {
-                            alert('Usuario no encontrado');
-                        } else if (errorCode === 'auth/invalid-email') {
-                            alert('Correo no es válido');
-                        } else {
-                            alert('Error: ' + error.message);
+                        Swal.close();
+                        let errorMessage = '';
+                        switch (error.code) {
+                            case 'auth/wrong-password':
+                                errorMessage = 'Contraseña incorrecta.';
+                                break;
+                            case 'auth/user-not-found':
+                                errorMessage = 'Usuario no encontrado.';
+                                break;
+                            case 'auth/invalid-email':
+                                errorMessage = 'Correo electrónico no válido.';
+                                break;
+                            default:
+                                errorMessage = 'Error desconocido: ' + error.message;
                         }
-                    }   
-                        }   
+        
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: errorMessage
+                        });
+                    }
+                }
+            });
         });
-    });
-});
 // Cerrar sesión
 document.getElementById('cerrar').addEventListener('click', async (e) => {
     e.preventDefault();  // Prevenir el envío del formulario
